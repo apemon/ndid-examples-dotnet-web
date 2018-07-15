@@ -1,0 +1,10 @@
+version: "3"
+services: 
+  examples-idp-3-web:
+    image: ndidplatform/ndid-examples-idp-dotnet-web:latest
+    ports:
+      - "8003:5000"
+    networks:
+      - ndidplatform
+networks:
+  ndidplatform:

@@ -1,0 +1,7 @@
+version: "3.3"
+services: 
+  examples:
+    image: ndidplatform/ndid-examples-idp-dotnet-web
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile

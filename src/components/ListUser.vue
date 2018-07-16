@@ -30,7 +30,7 @@ export default {
     },
   },
   mounted() {
-    const url = 'http://examples-idp-3/api/idp/users/';
+    const url = 'api/idp/users/';
     this.$http.get(url).then((res) => {
       this.users = res.data;
     }).catch((err) => {

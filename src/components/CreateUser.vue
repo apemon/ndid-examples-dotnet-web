@@ -47,7 +47,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      this.$http.post('http://examples-idp-3/api/idp/identity',
+      this.$http.post('api/idp/identity',
         {
           namespace: this.model.namespace,
           identifier: this.model.identifier,

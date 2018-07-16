@@ -8,8 +8,8 @@
         <b-card class="listRequest" v-for="(req, index) in requests" :key="index" :header="req.requester_node_id">
             <p>Request ID: {{ req.request_id }}</p>
             <p>Message: {{ req.request_message }}</p>
-            <b-button variant="primary">Accept</b-button>
-            <b-button variant="danger">Reject</b-button>
+            <b-button variant="primary" @click="acceptRequest(index)">Accept</b-button>
+            <b-button variant="danger" @click="rejectRequest(index)">Reject</b-button>
         </b-card>
     </b-container>
   </div>
@@ -22,15 +22,40 @@ export default {
     return {
       requests: [],
       empty: false,
+      namespace: '',
+      identifier: '',
     };
   },
   methods: {
-
+    acceptRequest(index) {
+      const req = this.requests[index];
+      this.$http.post('api/idp/accept', {
+        namespace: this.namespace,
+        identifier: this.identifier,
+        request_id: req.request_id,
+      }).then(() => {
+        this.requests.splice(index, 1);
+      }).catch((err) => {
+        alert(err.message);
+      });
+    },
+    rejectRequest(index) {
+      const req = this.requests[index];
+      this.$http.post('api/idp/reject', {
+        namespace: this.namespace,
+        identifier: this.identifier,
+        request_id: req.request_id,
+      }).then(() => {
+        this.requests.splice(index, 1);
+      }).catch((err) => {
+        alert(err.message);
+      });
+    },
   },
   mounted() {
-    const namespace = this.$route.params.namespace;
-    const identifier = this.$route.params.identifier;
-    const url = `http://examples-idp-3/api/idp/requests/${namespace}/${identifier}`;
+    this.namespace = this.$route.params.namespace;
+    this.identifier = this.$route.params.identifier;
+    const url = `api/idp/requests/${this.namespace}/${this.identifier}`;
     this.$http.get(url).then((res) => {
       this.requests = res.data;
       if (this.requests.length > 0) this.empty = false;
@@ -39,7 +64,7 @@ export default {
         this.requests[i].requester_node_id = `Request From ${this.requests[i].requester_node_id}`;
       }
     }).catch((err) => {
-      alert(err);
+      alert(err.message);
     });
   },
 };

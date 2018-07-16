@@ -54,7 +54,7 @@ export default {
         }).then(() => {
         this.$router.push('/');
       }).catch((err) => {
-        alert(err);
+        alert(err.data.ErrorDesc);
       });
     },
   },

@@ -30,25 +30,27 @@ export default {
     acceptRequest(index) {
       const req = this.requests[index];
       this.$http.post('api/idp/accept', {
-        namespace: this.namespace,
-        identifier: this.identifier,
-        request_id: req.request_id,
+        Namespace: this.namespace,
+        Identifier: this.identifier,
+        RequestId: req.request_id,
       }).then(() => {
         this.requests.splice(index, 1);
       }).catch((err) => {
-        alert(err.message);
+        alert(err.data.ErrorDesc);
+        if (err.data.ErrorDesc === 'remove') this.requests.splice(index, 1);
       });
     },
     rejectRequest(index) {
       const req = this.requests[index];
       this.$http.post('api/idp/reject', {
-        namespace: this.namespace,
-        identifier: this.identifier,
-        request_id: req.request_id,
+        Namespace: this.namespace,
+        Identifier: this.identifier,
+        RequestId: req.request_id,
       }).then(() => {
         this.requests.splice(index, 1);
       }).catch((err) => {
-        alert(err.message);
+        alert(err.data.ErrorDesc);
+        if (err.data.ErrorDesc === 'remove') this.requests.splice(index, 1);
       });
     },
   },
@@ -64,7 +66,7 @@ export default {
         this.requests[i].requester_node_id = `Request From ${this.requests[i].requester_node_id}`;
       }
     }).catch((err) => {
-      alert(err.message);
+      alert(err.data.ErrorDesc);
     });
   },
 };

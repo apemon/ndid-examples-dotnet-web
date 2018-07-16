@@ -34,7 +34,7 @@ export default {
     this.$http.get(url).then((res) => {
       this.users = res.data;
     }).catch((err) => {
-      alert(err);
+      alert(err.data.ErrorDesc);
     });
   },
 };
